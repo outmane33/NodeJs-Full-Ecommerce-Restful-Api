@@ -11,13 +11,13 @@ const {
   getAll,
 } = require("../utils/handlerFactory");
 //set categoryId to body
-const setCategoryId = (req, res, next) => {
+exports.setCategoryId = (req, res, next) => {
   if (!req.body.category) req.body.category = req.params.categoryId;
   next();
 };
 
 //create query for sub category
-const setQuery = (req, res, next) => {
+exports.setQuery = (req, res, next) => {
   let query = {};
   if (req.params.categoryId) {
     query.category = req.params.categoryId;
@@ -27,26 +27,16 @@ const setQuery = (req, res, next) => {
 };
 
 // Get all sub categories
-const getSubCategories = getAll(SubCategoryModel);
+exports.getSubCategories = getAll(SubCategoryModel);
 
 // Get a single sub category
-const getSubCategory = getOne(SubCategoryModel);
+exports.getSubCategory = getOne(SubCategoryModel);
 
 // Create a new sub category
-const createSubCategory = createOne(SubCategoryModel);
+exports.createSubCategory = createOne(SubCategoryModel);
 
 // Update a sub category
-const updateSubCategory = updateOne(SubCategoryModel);
+exports.updateSubCategory = updateOne(SubCategoryModel);
 
 // Delete a sub category
-const deleteSubCategory = deleteOne(SubCategoryModel);
-
-module.exports = {
-  createSubCategory,
-  getSubCategories,
-  getSubCategory,
-  deleteSubCategory,
-  updateSubCategory,
-  setCategoryId,
-  setQuery,
-};
+exports.deleteSubCategory = deleteOne(SubCategoryModel);

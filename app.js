@@ -12,6 +12,7 @@ const ApiError = require("./utils/apiError");
 const globalerrorHandler = require("./middlewares/errorMiddlewares");
 //Routes
 const mouteRoutes = require("./routes");
+const { webhookCheckout } = require("./services/orderService");
 
 //connect to database
 dbConnection();
@@ -25,6 +26,9 @@ app.options("*", cors());
 
 //compression
 app.use(compression());
+
+//checkout webhook
+app.post("/webhook-checkout", webhookCheckout);
 
 //middlewares
 app.use(express.json());

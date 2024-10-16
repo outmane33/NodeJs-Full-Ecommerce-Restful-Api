@@ -2,7 +2,7 @@ const UserModel = require("../models/userModel");
 const expressAsyncHandler = require("express-async-handler");
 const ApiError = require("../utils/apiError");
 const bcrypt = require("bcryptjs");
-const sharp = require("sharp");
+// const sharp = require("sharp");
 const { v4: uuidv4 } = require("uuid");
 const {
   deleteOne,
@@ -19,15 +19,15 @@ exports.uploadProductImage = uploadSigleImage("profileImage");
 
 // image processing
 exports.resizeImage = expressAsyncHandler(async (req, res, next) => {
-  if (req.file) {
-    const filename = `user-${uuidv4()}-${Date.now()}.jpeg`;
-    await sharp(req.file.buffer)
-      .resize(600, 600)
-      .toFormat("jpeg")
-      .jpeg({ quality: 90 })
-      .toFile(`uploads/users/${filename}`);
-    req.body.profileImage = filename;
-  }
+  // if (req.file) {
+  //   const filename = `user-${uuidv4()}-${Date.now()}.jpeg`;
+  //   await sharp(req.file.buffer)
+  //     .resize(600, 600)
+  //     .toFormat("jpeg")
+  //     .jpeg({ quality: 90 })
+  //     .toFile(`uploads/users/${filename}`);
+  //   req.body.profileImage = filename;
+  // }
   next();
 });
 

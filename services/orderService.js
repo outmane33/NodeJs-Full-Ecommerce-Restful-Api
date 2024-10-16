@@ -150,8 +150,10 @@ exports.checkoutSession = expressAsyncHandler(async (req, res, next) => {
       },
     ],
     mode: "payment",
-    success_url: `${req.protocol}://${req.get("host")}/orders`,
-    cancel_url: `${req.protocol}://${req.get("host")}/cart`,
+    // success_url: `${req.protocol}://${req.get("host")}/orders`,
+    // cancel_url: `${req.protocol}://${req.get("host")}/cart`,
+    success_url: `https://www.clavier-arab.org/`,
+    cancel_url: `https://www.arabic-keyboard.org/`,
     customer_email: req.user.email,
     client_reference_id: req.params.cartId,
     metadata: req.body.shippingAddress,
@@ -159,4 +161,29 @@ exports.checkoutSession = expressAsyncHandler(async (req, res, next) => {
 
   // 4) send session to response
   res.status(200).json({ status: "success", session });
+});
+
+//desc    This webhook will run when stripe payment success paid
+//route   POST /webhook-checkout
+//access  Protected/User
+exports.webhookCheckout = expressAsyncHandler(async (req, res, next) => {
+  const sig = req.headers["stripe-signature"];
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (err) {
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+  if (event.type === "checkout.session.completed") {
+    //  Create order
+    console.log("create order here");
+  }
+
+  res.status(200).json({ received: true });
 });
